@@ -1,7 +1,7 @@
 Lab 03 - Nobel laureates
 ================
-Insert your name here
-Insert date here
+Annie Somerville
+02.10.21
 
 ### Load packages and data
 
