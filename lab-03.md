@@ -104,6 +104,30 @@ Remove this text, and add your answer for Exercise 1 here. Add code
 chunks as needed. Don’t forget to label your code chunk. Do not use
 spaces in code chunk labels.
 
+``` r
+nobel_living <- nobel_living %>%
+  mutate(
+    country_us = if_else(country == "USA", "USA", "Other")
+  )
+```
+
+``` r
+nobel_living_science <- nobel_living %>%
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
+```
+
+``` r
+ggplot(data=nobel_living_science, aes(x=category, y=country_us, fill=country_us)) +
+geom_bar(stat="identity", position=position_dodge()) +
+  coord_flip()
+```
+
+![](lab-03_files/figure-gfm/barplot-1.png)<!-- -->
+
+Winners of science prizes were much more likely to be in the US than
+other countries, so I would say that Buzzfeed’s article headline is
+seems accurate.
+
 ### Exercise 4
 
 …
