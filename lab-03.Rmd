@@ -19,10 +19,10 @@ nobel <- read_csv("data/nobel.csv")
 
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+```{r glimpse, message=FALSE}
+glimpse(nobel)
+```
+This data has 935 observations/nobel laureates and 26 variables.
 
 ### Exercise 2
 
