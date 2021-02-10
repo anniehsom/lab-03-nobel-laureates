@@ -100,10 +100,6 @@ those who are still living, and those who had available countries.
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 1 here. Add code
-chunks as needed. Don’t forget to label your code chunk. Do not use
-spaces in code chunk labels.
-
 ``` r
 nobel_living <- nobel_living %>%
   mutate(
@@ -130,7 +126,25 @@ seems accurate.
 
 ### Exercise 4
 
-…
+``` r
+nobel <- nobel %>%
+  mutate(
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
+  )
+
+nobel %>%
+  count(born_country_us)
+```
+
+    ## # A tibble: 3 x 2
+    ##   born_country_us     n
+    ## * <chr>           <int>
+    ## 1 Other             636
+    ## 2 USA               271
+    ## 3 <NA>               28
+
+636 of the winners were not born in the US, and 271 winners were born in
+the US.
 
 ### Exercise 5
 

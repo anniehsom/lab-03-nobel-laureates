@@ -42,11 +42,6 @@ I used the `r glimpse(nobel_living)` code above to filter for people opposed to 
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
-
 ``` {r country_us}
 nobel_living <- nobel_living %>%
   mutate(
@@ -71,7 +66,17 @@ Winners of science prizes were much more likely to be in the US than other count
 
 ### Exercise 4
 
-...
+``` {r born_country_us}
+nobel <- nobel %>%
+  mutate(
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
+  )
+
+nobel %>%
+  count(born_country_us)
+```
+
+636 of the winners were not born in the US, and 271 winners were born in the US.
 
 ### Exercise 5
 
