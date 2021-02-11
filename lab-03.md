@@ -113,8 +113,8 @@ nobel_living_science <- nobel_living %>%
 ```
 
 ``` r
-ggplot(data=nobel_living_science, aes(x=category, y=country_us, fill=country_us)) +
-geom_bar(stat="identity", position=position_dodge()) +
+ggplot(data=nobel_living_science, aes(x=category, fill=country_us)) +
+geom_bar(stat="count", position=position_dodge()) +
   coord_flip()
 ```
 
@@ -127,28 +127,34 @@ seems accurate.
 ### Exercise 4
 
 ``` r
-nobel <- nobel %>%
+nobel_living_science <- nobel_living_science %>%
   mutate(
     born_country_us = if_else(born_country == "USA", "USA", "Other")
   )
 
-nobel %>%
+nobel_living_science %>%
   count(born_country_us)
 ```
 
-    ## # A tibble: 3 x 2
+    ## # A tibble: 2 x 2
     ##   born_country_us     n
     ## * <chr>           <int>
-    ## 1 Other             636
-    ## 2 USA               271
-    ## 3 <NA>               28
+    ## 1 Other             123
+    ## 2 USA               105
 
 636 of the winners were not born in the US, and 271 winners were born in
-the US.
+the US. Out of the science winners, 123 were born outside the US and 105
+were born in the US.
 
 ### Exercise 5
 
-…
+``` r
+ggplot(data=nobel_living_science, aes(x=category, fill=country_us)) +
+geom_bar(stat="count", position=position_dodge()) +
+  coord_flip()
+```
+
+![](lab-03_files/figure-gfm/barplot2-1.png)<!-- -->
 
 ### Exercise 6
 
