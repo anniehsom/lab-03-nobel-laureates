@@ -81,8 +81,10 @@ nobel_living_science %>%
 ### Exercise 5
 
 ``` {r barplot2}
+
 ggplot(data=nobel_living_science, aes(x=category, fill=country_us)) +
-geom_bar(stat="count", position=position_dodge()) +
+geom_bar(stat="count", position="dodge") +
+  geom_bar(fill=born_country_us), stat="count", position="stack") +
   coord_flip()
 ```
 
