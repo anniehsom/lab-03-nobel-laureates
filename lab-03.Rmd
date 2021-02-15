@@ -61,7 +61,7 @@ geom_bar(stat="count", position=position_dodge()) +
   coord_flip()
 ```
 
-Winners of science prizes were much more likely to be in the US than other countries, so I would say that Buzzfeed's article headline is seems accurate.
+Winners of science prizes were much more likely to be in the US than other countries, so I would say that Buzzfeed's article headline seems accurate.
 
 
 ### Exercise 4
@@ -80,14 +80,31 @@ nobel_living_science %>%
 
 ### Exercise 5
 
-``` {r barplot2}
+``` {r born_and_won_us}
+nobel_living_science <- nobel_living_science %>%  
+  mutate(
+    born_and_won_us = case_when(born_country_us == "Other" & country_us == "Other" ~ "Born in Other, Won in Other", #condition 1
+                         born_country_us == "Other" & country_us == "USA" ~ "Born in Other, Won in USA", #condition 2
+                         born_country_us == "USA" & country_us == "Other" ~ "Born in USA, Won in Other", #condition 3
+                         born_country_us == "USA" & country_us == "USA" ~ "Born in USA, Won in USA")) #condition4
 
-ggplot(data=nobel_living_science, aes(x=category, fill=country_us)) +
+nobel_living_science %>%
+  count(born_and_won_us)
+```
+
+``` {r barplot2}
+ggplot(data=nobel_living_science, aes(x=category, group=born_and_won_us, fill=born_and_won_us)) +
 geom_bar(stat="count", position="dodge") +
-  geom_bar(fill=born_country_us), stat="count", position="stack") +
   coord_flip()
 ```
+Buzzfeed's claim definitely seems accurate based on this visualization because there are many people born in other countries who immigrated to the USA and won the nobel prize, thus contributing to American science.
 
 ### Exercise 6
 
-...
+``` {r freq-born_country}
+nobel_living_science %>% 
+  filter(born_and_won_us=="Born in Other, Won in USA") %>%
+  count(born_country, sort=TRUE)
+```
+
+Both Germany and the UK are the most common countries to have laureates who were born in those countries, but won the prize in the US.

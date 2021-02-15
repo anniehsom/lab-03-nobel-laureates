@@ -121,8 +121,8 @@ geom_bar(stat="count", position=position_dodge()) +
 ![](lab-03_files/figure-gfm/barplot-1.png)<!-- -->
 
 Winners of science prizes were much more likely to be in the US than
-other countries, so I would say that Buzzfeed’s article headline is
-seems accurate.
+other countries, so I would say that Buzzfeed’s article headline seems
+accurate.
 
 ### Exercise 4
 
@@ -149,13 +149,58 @@ were born in the US.
 ### Exercise 5
 
 ``` r
-ggplot(data=nobel_living_science, aes(x=category, fill=country_us)) +
-geom_bar(stat="count", position=position_dodge()) +
+nobel_living_science <- nobel_living_science %>%  
+  mutate(
+    born_and_won_us = case_when(born_country_us == "Other" & country_us == "Other" ~ "Born in Other, Won in Other", #condition 1
+                         born_country_us == "Other" & country_us == "USA" ~ "Born in Other, Won in USA", #condition 2
+                         born_country_us == "USA" & country_us == "Other" ~ "Born in USA, Won in Other", #condition 3
+                         born_country_us == "USA" & country_us == "USA" ~ "Born in USA, Won in USA")) #condition4
+
+nobel_living_science %>%
+  count(born_and_won_us)
+```
+
+    ## # A tibble: 4 x 2
+    ##   born_and_won_us                 n
+    ## * <chr>                       <int>
+    ## 1 Born in Other, Won in Other    78
+    ## 2 Born in Other, Won in USA      45
+    ## 3 Born in USA, Won in Other       3
+    ## 4 Born in USA, Won in USA       102
+
+``` r
+ggplot(data=nobel_living_science, aes(x=category, group=born_and_won_us, fill=born_and_won_us)) +
+geom_bar(stat="count", position="dodge") +
   coord_flip()
 ```
 
-![](lab-03_files/figure-gfm/barplot2-1.png)<!-- -->
+![](lab-03_files/figure-gfm/barplot2-1.png)<!-- --> Buzzfeed’s claim
+definitely seems accurate based on this visualization because there are
+many people born in other countries who immigrated to the USA and won
+the nobel prize, thus contributing to American science.
 
 ### Exercise 6
 
-…
+``` r
+nobel_living_science %>% 
+  filter(born_and_won_us=="Born in Other, Won in USA") %>%
+  count(born_country, sort=TRUE)
+```
+
+    ## # A tibble: 21 x 2
+    ##    born_country       n
+    ##    <chr>          <int>
+    ##  1 Germany            7
+    ##  2 United Kingdom     7
+    ##  3 China              5
+    ##  4 Canada             4
+    ##  5 Japan              3
+    ##  6 Australia          2
+    ##  7 Israel             2
+    ##  8 Norway             2
+    ##  9 Austria            1
+    ## 10 Finland            1
+    ## # ... with 11 more rows
+
+Both Germany and the UK are the most common countries to have laureates
+who were born in those countries, but won the prize in the US.
